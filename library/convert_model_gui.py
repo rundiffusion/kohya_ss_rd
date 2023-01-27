@@ -40,7 +40,8 @@ def convert_model(
         msgbox('The provided target folder does not exist')
         return
 
-    run_cmd = f'.\\venv\Scripts\python.exe "tools/convert_diffusers20_original_sd.py"'
+    run_cmd = f". {os.environ['ROOT']}/kohya_venv/bin/activate; "
+    run_cmd +=f'python "tools/convert_diffusers20_original_sd.py"'
 
     v1_models = [
         'runwayml/stable-diffusion-v1-5',
@@ -87,7 +88,7 @@ def convert_model(
     print(run_cmd)
 
     # Run the command
-    subprocess.run(run_cmd)
+    subprocess.run(run_cmd, shell=True)
 
     if (
         not target_model_type == 'diffuser'

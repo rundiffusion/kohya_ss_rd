@@ -278,7 +278,7 @@ def train_model(
     random_crop,
     bucket_reso_steps,
     caption_dropout_every_n_epochs, caption_dropout_rate,
-):  
+):
     if pretrained_model_name_or_path == '':
         msgbox('Source model information is missing')
         return
@@ -381,10 +381,10 @@ def train_model(
     lr_warmup_steps = round(float(int(lr_warmup) * int(max_train_steps) / 100))
     print(f'lr_warmup_steps = {lr_warmup_steps}')
 
-    run_cmd = f'accelerate launch --num_cpu_threads_per_process={num_cpu_threads_per_process} "train_network.py"'
+    run_cmd = f". {os.environ['ROOT']}/kohya_venv/bin/activate; "
+    run_cmd += f'accelerate launch --num_cpu_threads_per_process={num_cpu_threads_per_process} "train_network.py"'
 
     # run_cmd += f' --caption_dropout_rate="0.1" --caption_dropout_every_n_epochs=1'   # --random_crop'
-
     if v2:
         run_cmd += ' --v2'
     if v_parameterization:
@@ -485,7 +485,7 @@ def train_model(
 
     print(run_cmd)
     # Run the command
-    subprocess.run(run_cmd)
+    subprocess.run(run_cmd, shell=True)
 
     # check if output_dir/last is a folder... therefore it is a diffuser model
     last_dir = pathlib.Path(f'{output_dir}/{output_name}')
@@ -844,11 +844,11 @@ def UI(**kwargs):
         launch_kwargs["auth"] = (kwargs.get('username', None), kwargs.get('password', None))
     if kwargs.get('server_port', 0) > 0:
         launch_kwargs["server_port"] = kwargs.get('server_port', 0)
-    if kwargs.get('inbrowser', False):        
+    if kwargs.get('inbrowser', False):
         launch_kwargs["inbrowser"] = kwargs.get('inbrowser', False)
     print(launch_kwargs)
     interface.launch(**launch_kwargs)
-        
+
 
 if __name__ == '__main__':
     # torch.cuda.set_per_process_memory_fraction(0.48)
