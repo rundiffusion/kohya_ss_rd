@@ -50,6 +50,7 @@ def UI(**kwargs):
     username = kwargs.get('username')
     password = kwargs.get('password')
     server_port = kwargs.get('server_port', 0)
+    server_name = "0.0.0.0"
     inbrowser = kwargs.get('inbrowser', False)
     if username and password:
         launch_kwargs["auth"] = (username, password)
