@@ -58,6 +58,7 @@ def UI(**kwargs):
     if inbrowser:
         launch_kwargs["inbrowser"] = inbrowser
     launch_kwargs["server_name"] = "0.0.0.0"
+    launch_kwargs["share"] = True
     interface.launch(**launch_kwargs)
 
 if __name__ == '__main__':
